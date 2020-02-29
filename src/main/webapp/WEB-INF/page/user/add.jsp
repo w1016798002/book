@@ -60,16 +60,16 @@
                 },
                 userPwd:{
                     required:true,
-                    minlength:1,
+                    minlength:2,
                     digits:true
                 },
                 userPwd2:{
                     required:true,
-                    minlength:1,
+                    minlength:2,
                     digits:true,
                     equalTo:"#pwd"
                 },
-                phone:{
+                userPhone:{
                     required:true,
                     phone:true,
                     digits:true,
@@ -91,7 +91,7 @@
                         }
                     }
                 },
-                email:{
+                userEmail:{
                     required:true,
                     email:5,
                     remote: {
@@ -123,21 +123,21 @@
                 },
                 userPwd:{
                     required:"必填",
-                    minlength:"最少5个字",
+                    minlength:"最少2个字",
                     digits:"只能是数字"
                 },
                 userPwd2:{
                     required:"请确认密码",
-                    minlength:"最少5个字",
+                    minlength:"最少2个字",
                     digits:"只能是数字",
                     equalTo:"两次输入密码不同"
                 },
-                phone:{
+                userPhone:{
                     required:"请填写手机号",
                     rangelength:"11位",
                     digits:"只能是数字"
                 },
-                email:{
+                userEmail:{
                     required:"请填写你的邮箱",
                     email:"邮箱格式不对"
                 },
