@@ -21,4 +21,9 @@ public class UserPageController {
         return "user/add";
     }
 
+    @RequestMapping("toShow")
+    private String toShow() {
+        return "user/show";
+    }
+
 }

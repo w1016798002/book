@@ -5,10 +5,16 @@ import com.dj.book.common.ResultModel;
 import com.dj.book.common.SystemConstant;
 import com.dj.book.pojo.User;
 import com.dj.book.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user/")
@@ -124,4 +130,24 @@ public class UserController {
 
     }
 
+    @RequestMapping("findList")
+    public ResultModel<Object> show(String userName, Integer pageNo) {
+        HashMap<String, Object> map = new HashMap<>();
+        try {
+            PageHelper.startPage(pageNo, SystemConstant.NUMBER_TWO);
+            QueryWrapper<User> wrapper = new QueryWrapper<>();
+            if (!StringUtils.isEmpty(userName)) {
+                wrapper.like("user_name", userName);
+            }
+            wrapper.eq("is_del", SystemConstant.NUMBER_TWO);
+            List<User> userList = userService.list(wrapper);
+            PageInfo<User> pageInfo = new PageInfo<User>(userList);
+            map.put("totalNum", pageInfo.getPages());
+            map.put("userList", userList);
+            return new ResultModel<>().success(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<Object>().error(SystemConstant.ERROR + e.getMessage());
+        }
+    }
 }
