@@ -81,5 +81,20 @@ public class BookController {
             return new ResultModel<>().error(SystemConstant.ERROR + e.getMessage());
         }
     }
+
+    @RequestMapping("delById")
+    public ResultModel<Object> delById(Integer id) throws Exception {
+        try {
+            UpdateWrapper<Book> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("is_del", SystemConstant.NUMBER_ONE);
+            updateWrapper.eq("id", id);
+            bookService.update(updateWrapper);
+            return new ResultModel<>().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(SystemConstant.ERROR + e.getMessage());
+        }
+    }
+
 }
 

@@ -17,7 +17,7 @@
 	</form>
 		<input type="button" value="上/下架" onclick="updateBookStatusById()">
 		<input type="button" value="新增" onclick="addBook()">
-		<input type="button" value="删除" onclick="delBookById()">
+		<input type="button" value="删除" onclick="delById()">
 		<input type="button" value="修改" onclick="updateBookById()">
 		<table border = "1px" align="center" >
 			<tr align='center'>
@@ -29,9 +29,7 @@
 			
 			</tbody>
 		</table>
-	
 	<div id="pageInfo">
-		
 	</div>
 </body>
 <script type="text/javascript">
@@ -155,45 +153,29 @@
 	}
 
 	//刪除
-
-	function delBookById(){
-
+	function delById(){
 		var length = $("input[name='id']:checked").length;
-
 		if(length <= 0){
 			layer.msg('请至少选择一个!', {icon:0});
 			return;
 		}
-
-		var str = "";
-		$("input[name='id']:checked").each(function (index, item) {
-
-			if ($("input[name='id']:checked").length-1==index) {
-				str += $(this).val();
-			} else {
-				str += $(this).val() + ",";
-			}
-		});
-
-		/*  alert(str) */
+		if(length > 1){
+			alert("只能选择一个");
+			return;
+		}
+		var id = $("input[name='id']:checked").val();
 		layer.confirm('确定删除吗?', {icon: 3, title:'提示'}, function(index){
-			//do something
-
 			layer.close(index);
-
-			$.post("<%=request.getContextPath()%>/book/delBookById",
-
-					{"ids":str,"isDel":1},
-
+			$.post("<%=request.getContextPath()%>/book/delById",
+					{"id":id},
 					function(data){
-
 						if(data.code == 200){
 							layer.msg(data.msg, {
 								icon: 6,
 								time: 2000 //2秒关闭（如果不配置，默认是3秒）
 							}, function(){
 								//do something
-								window.location.href = "<%=request.getContextPath()%>/book/toBookShow";
+								window.location.href = "<%=request.getContextPath()%>/book/toShow";
 							});
 							return;
 						}

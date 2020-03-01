@@ -110,10 +110,7 @@
 
         var id = $("input[name='id']:checked").val();
         layer.confirm('确定修改吗?', {icon: 3, title:'提示'}, function(index){
-            //do something
-
             layer.close(index);
-
             layer.open({
                 type: 2,
                 title: '修改页面',
@@ -129,7 +126,6 @@
     //删除
     function del(){
         var length = $("input[name='id']:checked").length;
-
         if(length <= 0){
             alert("至少选择一项");
             return;
@@ -138,7 +134,6 @@
             alert("只能选择一个");
             return;
         }
-
         var id = $("input[name='id']:checked").val();
         var index = layer.load(1,{shade:0.5});
         layer.confirm('确定删除吗?', {icon: 3, title:'提示'}, function(index){
@@ -159,8 +154,6 @@
             )
         });
     }
-
-
 </script>
 </html>
 
