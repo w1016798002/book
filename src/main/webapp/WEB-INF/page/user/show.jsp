@@ -21,7 +21,7 @@
 
     <input type="button" value="修改" onclick="updateById()">
 
-    <input type="button" value="删除" onclick="del()">
+    <input type="button" value="注销账号" onclick="del()">
 
 <table border="1px">
     <tr>
