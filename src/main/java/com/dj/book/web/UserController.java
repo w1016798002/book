@@ -1,6 +1,7 @@
 package com.dj.book.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dj.book.common.ResultModel;
 import com.dj.book.common.SystemConstant;
 import com.dj.book.pojo.User;
@@ -148,6 +149,25 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultModel<Object>().error(SystemConstant.ERROR + e.getMessage());
+        }
+    }
+
+    /**
+     * 伪删除
+     * @param id
+     * @return
+     */
+    @RequestMapping("delById")
+    public ResultModel<Object> delById(Integer id) throws Exception {
+        try {
+            UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("is_del", SystemConstant.NUMBER_ONE);
+            updateWrapper.eq("id", id);
+            userService.update(updateWrapper);
+            return new ResultModel<>().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(SystemConstant.ERROR + e.getMessage());
         }
     }
 }

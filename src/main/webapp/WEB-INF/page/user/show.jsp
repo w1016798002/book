@@ -149,7 +149,7 @@
                 function(data){
                     if (data.code != -1) {
                         layer.msg(data.msg, {icon: 6}, function(){
-                            window.location.href = "<%=request.getContextPath()%>/user/toList";
+                            window.location.href = "<%=request.getContextPath()%>/user/toShow";
                         });
                         return;
                     }
