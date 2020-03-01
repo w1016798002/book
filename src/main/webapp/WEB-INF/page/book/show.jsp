@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/static/js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
 </head>
-<body align="center">
+<body>
 	<form id="fm">
 		图书名<input type="text" name="bookName" id="bookName">
 		<input type="hidden" value="1" id="pageNo" name ="pageNo">
@@ -19,11 +19,12 @@
 		<input type="button" value="新增" onclick="addBook()">
 		<input type="button" value="删除" onclick="delById()">
 		<input type="button" value="修改" onclick="updateBookById()">
-		<table border = "1px" align="center" >
-			<tr align='center'>
-				<td>上下架</td>
+		<table border = "1px" >
+			<tr>
+				<td></td>
 				<td>书名</td>
 				<td>状态</td>
+				<td>上下架</td>
 			</tr>
 			<tbody id="tbd">
 			
@@ -105,28 +106,27 @@
 		var status = $("#"+id).val();
 		var a = "";
 		var b = 0;
-		if (status == 0) {
+		if (status == 2) {
 			a = "你确定要把它下架吗？";
 			b = 1;
 		}else{
 			a = "你确定要把它上架吗？"
-			b = 0;
+			b = 2;
 		}
 		var id = $("input[name='id']:checked").val();
 		layer.confirm(a, {icon: 3, title:'提示'}, function(index){
 
 			layer.close(index);
 			$.post("<%=request.getContextPath()%>/book/updateBookStatusById",
-					{"id":id, "bookStatus":b},
+					{"id":id, "status":b},
 					function(data){
-
 						if(data.code == 200){
 							layer.msg(data.msg, {
 								icon: 6,
 								time: 2000 //2秒关闭（如果不配置，默认是3秒）
 							}, function(){
 								//do something
-								window.location.href="<%=request.getContextPath()%>/book/toBookShow";
+								window.location.href="<%=request.getContextPath()%>/book/toShow";
 							});
 							return;
 						}

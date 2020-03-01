@@ -96,5 +96,18 @@ public class BookController {
         }
     }
 
+    @RequestMapping("updateBookStatusById")
+    public ResultModel<Object> updateBookStatusById(Integer id, Integer status) {
+        try {
+            UpdateWrapper<Book> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("status", status);
+            updateWrapper.eq("id", id);
+            bookService.update(updateWrapper);
+            return new ResultModel<>().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(SystemConstant.ERROR + e.getMessage());
+        }
+    }
 }
 
