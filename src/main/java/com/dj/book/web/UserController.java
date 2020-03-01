@@ -2,6 +2,7 @@ package com.dj.book.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.dj.book.common.MessageVerifyUtils;
 import com.dj.book.common.ResultModel;
 import com.dj.book.common.SystemConstant;
 import com.dj.book.pojo.User;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -191,4 +194,73 @@ public class UserController {
             return new ResultModel<>().error(SystemConstant.ERROR + e.getMessage());
         }
     }
+
+    /**
+     * 手机号验证码登录
+     * @param user
+     * @param
+     * @return
+     */
+    @RequestMapping("codeLogin")
+    public ResultModel<Object> codeLogin(User user) {
+        try {
+            if (StringUtils.isEmpty(user.getUserPhone()) || StringUtils.isEmpty(user.getCode())) {
+                return new ResultModel<Object>().error("手机号或验证码不得为空!");
+            }
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_phone", user.getUserPhone());
+            queryWrapper.eq("code", user.getCode());
+            User user1 = userService.getOne(queryWrapper);
+            if (user1 == null) {
+                return new ResultModel<Object>().error("手机号与验证码不匹配!!");
+            }
+            if (user1.getIsDel() == 1) {
+                return new ResultModel<Object>().error("用户已被删除!");
+            }
+            if (user1.getEndTime().compareTo(new Date()) != 1) {
+                return new ResultModel<>().error("验证码已失效");
+            }
+            return new ResultModel<Object>().success("登陆成功!");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return new ResultModel<Object>().error("系统正在维修中...");
+        }
+
+    }
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping("getCode")
+    public ResultModel<Object> getCode(User user) {
+        try {
+            if (StringUtils.isEmpty(user.getUserPhone())) {
+                return new ResultModel<Object>().error("手机号不得为空!");
+            }
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_phone", user.getUserPhone());
+            User user1 = userService.getOne(queryWrapper);
+            if (!user1.getIsDel().equals(SystemConstant.NUMBER_ONE) && user1 != null ) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                cal.add(Calendar.MINUTE, 1);
+                String newCode = String.valueOf(MessageVerifyUtils.getNewcode());
+                UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+                updateWrapper.set("code", newCode).set("end_time", cal.getTime());
+                updateWrapper.eq("user_phone",user.getUserPhone());
+                userService.update(updateWrapper);
+                MessageVerifyUtils.sendSms(user.getUserPhone(), newCode);
+            }
+            return new ResultModel<Object>().success();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return new ResultModel<Object>().error("系统正在维修中...");
+        }
+    }
+
+
 }

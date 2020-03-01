@@ -13,7 +13,5 @@
 </script>
 </head>
 <body>
-	<h1>显示页面</h1>
 </body>
-
 </html>

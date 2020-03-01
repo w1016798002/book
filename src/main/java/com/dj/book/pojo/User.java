@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @TableName("user")
 public class User {
@@ -32,5 +34,7 @@ public class User {
     private Integer role;
 
     private String salt;
+
+    private Date endTime;
 
 }

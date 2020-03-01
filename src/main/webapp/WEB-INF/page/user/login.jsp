@@ -20,6 +20,7 @@
         密码：<input type="text" name="userPwd" id="pwd"><br>
         <input type="button" value="登录" onclick="login()">
         <a href="<%=request.getContextPath()%>/user/toAdd">去注册</a><br/>
+        <a href="<%=request.getContextPath()%>/user/toPhone">手机号登录</a><br/>
     </form>
 </body>
 <script>

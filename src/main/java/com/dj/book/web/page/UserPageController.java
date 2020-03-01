@@ -17,6 +17,15 @@ public class UserPageController {
     @Autowired
     private UserService userService;
 
+    /**去验证码登录页面
+     *
+     * @return
+     */
+    @RequestMapping("toPhone")
+    public String toPhone() {
+        return "user/phone";
+    }
+
     @RequestMapping("toLogin")
     private String toLogin() {
         return "user/login";
