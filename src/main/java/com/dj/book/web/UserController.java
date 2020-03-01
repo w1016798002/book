@@ -170,4 +170,25 @@ public class UserController {
             return new ResultModel<>().error(SystemConstant.ERROR + e.getMessage());
         }
     }
+
+    /**
+     * 根据id修改
+     * @param user
+     * @return
+     */
+    @RequestMapping("update")
+    public ResultModel<Object> update(User user) {
+        try {
+            UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("user_name", user.getUserName())
+                    .set("user_phone", user.getUserPhone())
+                    .set("user_email", user.getUserEmail());
+            updateWrapper.eq("id", user.getId());
+            userService.update(updateWrapper);
+            return new ResultModel<>().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(SystemConstant.ERROR + e.getMessage());
+        }
+    }
 }

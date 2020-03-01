@@ -120,7 +120,7 @@
                 shadeClose: true,
                 shade: 0.8,
                 area: ['380px', '90%'],
-                content: '<%=request.getContextPath()%>/shop/toUpdate/'+id
+                content: '<%=request.getContextPath()%>/user/toUpdate/'+id
             });
         });
     }
