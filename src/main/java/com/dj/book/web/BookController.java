@@ -1,6 +1,7 @@
 package com.dj.book.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dj.book.common.ResultModel;
 import com.dj.book.common.SystemConstant;
 import com.dj.book.pojo.Book;
@@ -63,6 +64,21 @@ public class BookController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultModel<Object>().error(SystemConstant.ERROR + e.getMessage());
+        }
+    }
+
+    @RequestMapping("updateById")
+    public ResultModel<Object> update(Book book) {
+        try {
+            UpdateWrapper<Book> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("book_name", book.getBookName())
+                    .set("book_count", book.getBookCount());
+            updateWrapper.eq("id", book.getId());
+            bookService.update(updateWrapper);
+            return new ResultModel<>().success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(SystemConstant.ERROR + e.getMessage());
         }
     }
 }

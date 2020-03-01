@@ -8,7 +8,6 @@
 <title>Insert title here</title>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/static/js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/static/layer-v3.1.1/layer/layer.js"></script>
-
 </head>
 <body align="center">
 	<form id="fm">
@@ -206,7 +205,6 @@
 	//去修改
 	function updateBookById(){
 		var length = $("input[name='id']:checked").length;
-
 		if(length <= 0){
 			alert("至少选择一项");
 			return;
@@ -215,28 +213,22 @@
 			alert("只能选择一个");
 			return;
 		}
-
 		var id = $("input[name='id']:checked").val();
 		layer.confirm('确定修改吗?', {icon: 3, title:'提示'}, function(index){
-			//do something
-
 			layer.close(index);
-
 			layer.open({
 				type: 2,
 				title: '修改页面',
 				shadeClose: true,
 				shade: 0.8,
 				area: ['380px', '90%'],
-				content: '<%=request.getContextPath()%>/book/updateBookById/'+id
+				content: '<%=request.getContextPath()%>/book/toUpdateById/'+id
 			});
 		});
 	}
-
 	function find(){
 		$("#pageNo").val(1);
 		search();
 	}
-
 </script>
 </html>
