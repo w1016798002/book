@@ -13,7 +13,6 @@
 <body align="center">
 	<form id="fm">
 		图书名<input type="text" name="bookName" id="bookName">
-		库存：<input type="text" name="bookCount" >
 		<input type="hidden" value="1" id="pageNo" name ="pageNo">
 		<input type="button" value="搜寻" onclick="find()">
 	</form>
@@ -50,7 +49,6 @@
 		$.post(
 				"<%=request.getContextPath()%>/book/show",
 				$("#fm").serialize(),
-				//{"pageNo":$("#pageNo").val(),"bookName":$("#bookName").val()},
 				function(data){
 					if (data.code != 200) {
 						alert(data.msg);
@@ -60,16 +58,15 @@
 					var html = "";
 					for(var i = 0; i < data.data.bookList.length; i++){
 						html += "<tr>";
-						html += "<input type = 'hidden' id = '"+data.data.bookList[i].id+"' value = '"+data.data.bookList[i].bookStatus+"'>";
+						html += "<input type = 'hidden' id = '"+data.data.bookList[i].id+"' value = '"+data.data.bookList[i].status+"'>";
 						html += "<td><input type = 'checkbox' name = 'id' value = '"+data.data.bookList[i].id+"'></td>";
 						html += "<td>"+data.data.bookList[i].bookName+"</td>";
-						html += "<td>"+data.data.bookList[i].typeShow+"</td>";
-						html += "<td>"+data.data.bookList[i].bookWriter+"</td>";
-						html += "<td>"+data.data.bookList[i].onlineTime+"</td>";
-						html += "<td>"+data.data.bookList[i].statusShow+"</td>";
-						html += "<td>"+data.data.bookList[i].peolpeShow+"</td>";
-						html += "<td>"+data.data.bookList[i].createTime+"</td>";
-						html += "<td>"+data.data.bookList[i].updateTime+"</td>";
+						html += "<td>"+data.data.bookList[i].bookCount+"</td>";
+						if (data.data.bookList[i].status == 1) {
+                            html += "<td>下架</td>";
+                        }else{
+						    html += "<td>上架</td>";
+                        }
 						html += "</tr>";
 					}
 					$("#tbd").html(html);
@@ -153,7 +150,7 @@
 				shadeClose: true,
 				shade: 0.8,
 				area: ['380px', '90%'],
-				content: '<%=request.getContextPath()%>/book/toAdd' //iframe的url
+				content: '<%=request.getContextPath()%>/book/toAdd'
 			});
 		});
 	}
@@ -233,7 +230,6 @@
 				area: ['380px', '90%'],
 				content: '<%=request.getContextPath()%>/book/updateBookById/'+id
 			});
-			<%-- window.location.href="<%=request.getContextPath()%>/book/updateBookById/"+id; --%>
 		});
 	}
 
